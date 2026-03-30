@@ -1,5 +1,4 @@
-# data/sheets_connector.py
-
+import streamlit as st
 import gspread
 import pandas as pd
 from google.oauth2.service_account import Credentials
@@ -9,14 +8,14 @@ from config.settings import SHEET_NAME, TAB_REGISTROS, RANGO_DATOS, COLUMNAS
 # CONEXIÓN
 # ─────────────────────────────────────────
 
-SCOPES = [
-    "https://www.googleapis.com/auth/spreadsheets",
-    "https://www.googleapis.com/auth/drive"
-]
-
 def get_sheet(nombre_pestana: str):
-    """Retorna cualquier pestaña del archivo por su nombre."""
-    creds = Credentials.from_service_account_file("credenciales.json", scopes=SCOPES)
+    creds = Credentials.from_service_account_info(
+        st.secrets["gcp_service_account"],  # lee desde Secrets
+        scopes=[
+            "https://www.googleapis.com/auth/spreadsheets",
+            "https://www.googleapis.com/auth/drive"
+        ]
+    )
     client = gspread.authorize(creds)
     return client.open(SHEET_NAME).worksheet(nombre_pestana)
 
