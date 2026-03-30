@@ -80,7 +80,37 @@ def add_record(fecha: str, monto: float, tipo: str,
         sheet = get_sheet(TAB_REGISTROS)
         nueva_fila = [fecha, monto, tipo, descripcion, deudor, factor]
         sheet.append_row(nueva_fila, value_input_option="USER_ENTERED")
+        
+        # 2. Obtener número total de filas después del append
+        last_row = len(sheet.get_all_values())
+
+        # 3. Copiar fórmula de G (columna 6 index base 0) de la fila anterior
+        sheet.spreadsheet.batch_update({
+            "requests": [
+                {
+                    "copyPaste": {
+                        "source": {
+                            "sheetId": sheet.id,
+                            "startRowIndex": last_row - 2,  # fila anterior
+                            "endRowIndex": last_row - 1,
+                            "startColumnIndex": 6,  # columna G
+                            "endColumnIndex": 7
+                        },
+                        "destination": {
+                            "sheetId": sheet.id,
+                            "startRowIndex": last_row - 1,  # nueva fila
+                            "endRowIndex": last_row,
+                            "startColumnIndex": 6,
+                            "endColumnIndex": 7
+                        },
+                        "pasteType": "PASTE_NORMAL"
+                    }
+                }
+            ]
+        })
+        
         return True
+    
     except Exception as e:
         print(f"Error al agregar registro: {e}")
         return False
