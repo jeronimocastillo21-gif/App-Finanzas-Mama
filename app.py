@@ -13,7 +13,7 @@ st.set_page_config(
 st.sidebar.title("💰 Mis Finanzas")
 vista = st.sidebar.radio(
     "Navegación",
-    ["Dashboard", "Nuevo Registro", "Consultas"]
+    ["Nuevo Registro", "Dashboard", "Consultas"]
 )
 
 # Enrutamiento
