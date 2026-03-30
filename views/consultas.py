@@ -1,0 +1,101 @@
+import streamlit as st
+from datetime import date
+from data.sheets_connector import get_celda, get_tabla
+from config.settings import TIPOS_VALIDOS
+
+def num_to_col(n):
+    result = ""
+    while n > 0:
+        n, remainder = divmod(n - 1, 26)
+        result = chr(65 + remainder) + result
+    return result
+
+def col_to_num(col):
+    result = 0
+    for c in col:
+        result = result * 26 + (ord(c.upper()) - 64)
+    return result
+
+def mostrar():
+    st.title("🔍 Consultas")
+    
+    
+    granularidad = st.radio(
+        "Consultar por",
+        options=["Año", "Mes"],
+        horizontal=True
+    )
+
+    # FILTRO 2 — Período (depende del filtro 1)
+    col1, col2 = st.columns(2)
+
+    with col1:
+        anios = [2025,2026]
+        anio = st.selectbox("Año", options=anios)  # ej: [2023, 2024, 2025]
+        meses = [
+                "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", 
+                "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+            ]
+        if anio == anios[0]:
+            meses = meses[8:]
+        elif anio == anios[-1]:
+            mes_actual = int(str(date.today())[5:7])
+            meses = meses[0:mes_actual]
+
+    with col2:
+        if granularidad == "Mes":
+            mes = st.selectbox("Mes", options=meses)
+        # Si es "Año", esta columna queda vacía intencionalmente
+
+    # FILTRO 3 — Tipo
+    tipo = st.selectbox(
+        "Tipo",
+        options=["General"] + TIPOS_VALIDOS
+    )
+
+    # ─────────────────────────────────────────
+    # CONSULTA
+    # ─────────────────────────────────────────
+
+    if st.button("Consultar", type="primary", use_container_width=True):
+
+        # Construye los parámetros según los filtros
+        if granularidad == "Año":
+            periodo = str(anio)
+        else:
+            periodo = f"{mes}/{anio}"
+
+        # Trae la tabla correspondiente desde Sheets
+        # Aquí defines el rango según tu estructura real
+        if tipo == "General":
+            pestaña = "Ingresos/Gastos"
+            col_in = 9
+        else:
+            pestaña = tipo
+            col_in = 4
+        
+        col = col_in + 5*(anio-2025)
+        col_i = num_to_col(col)
+        col += 3
+        col_f = num_to_col(col)
+        
+        df = get_tabla(pestaña, f"{col_i}2:{col_f}15")
+        if granularidad == "Mes":
+            df = df[df["Mes"]==mes]
+        else:
+            df = df[df["Mes"].isin(meses+["Total"])]
+
+        # ─────────────────────────────────────────
+        # RESULTADOS
+        # ─────────────────────────────────────────
+
+        st.divider()
+        st.subheader(f"Resultados — {periodo}")
+
+        st.dataframe(
+        df,
+        use_container_width=True,
+        hide_index=True
+    )
+    
+    
