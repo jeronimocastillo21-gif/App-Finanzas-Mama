@@ -61,7 +61,8 @@ def mostrar():
     # Botón de envío
     if st.button("Guardar registro", type="primary", width="stretch"):
         
-        actualizar_tabla_deudas()
+        if deudor:
+            actualizar_tabla_deudas(deudor)
         
         # Validaciones
         if monto == 0:
