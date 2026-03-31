@@ -78,28 +78,29 @@ def actualizar_tabla_deudas():
         if deudor not in deudores_actuales:
             sheet.append_row([deudor], value_input_option="USER_ENTERED")
             last_row = len(sheet.get_all_values())
-            sheet.spreadsheet.batch_update([
-                    {
-                        "copyPaste": {
-                            "source": {
-                                "sheetId": sheet.id,
-                                "startRowIndex": last_row - 2,  # fila anterior
-                                "endRowIndex": last_row - 1,
-                                "startColumnIndex": 1,  # columna B
-                                "endColumnIndex": 2
-                            },
-                            "destination": {
-                                "sheetId": sheet.id,
-                                "startRowIndex": last_row - 1,  # nueva fila
-                                "endRowIndex": last_row,
-                                "startColumnIndex": 1,
-                                "endColumnIndex": 2
-                            },
-                            "pasteType": "PASTE_NORMAL"
-                        }
+            sheet.spreadsheet.batch_update({
+            "requests": [
+                {
+                    "copyPaste": {
+                        "source": {
+                            "sheetId": sheet.id,
+                            "startRowIndex": last_row - 2,  # fila anterior
+                            "endRowIndex": last_row - 1,
+                            "startColumnIndex": 6,  # columna G
+                            "endColumnIndex": 7
+                        },
+                        "destination": {
+                            "sheetId": sheet.id,
+                            "startRowIndex": last_row - 1,  # nueva fila
+                            "endRowIndex": last_row,
+                            "startColumnIndex": 6,
+                            "endColumnIndex": 7
+                        },
+                        "pasteType": "PASTE_NORMAL"
                     }
-                ]
-            )
+                }
+            ]
+            })
     return None
     
 
