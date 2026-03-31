@@ -19,7 +19,7 @@ def mostrar():
             "Monto",
             value=0,
             step=1000,
-            help="Positivo para ingresos, negativo para gastos"
+            help="Solamente valores positivos"
         )
 
     with col2:
@@ -57,6 +57,9 @@ def mostrar():
         # Validaciones
         if monto == 0:
             st.error("❌ El monto no puede ser cero.")
+            
+        if monto < 0:
+            st.error("❌ El monto no puede ser negativo.")
 
         elif not descripcion:
             st.error("❌ La descripción no puede estar vacía.")
@@ -67,7 +70,7 @@ def mostrar():
 
             exito = add_record(
                 fecha=fecha_str,
-                monto=monto,
+                monto=-1*monto,
                 tipo="",
                 descripcion=descripcion,
                 deudor=deudor,
