@@ -106,16 +106,7 @@ def mostrar():
                 dat = f"0{fecha}/{mes_in}/{anio}"
             else:
                 dat = f"0{fecha}/0{mes_in}/{anio}"
-                
-            st.dataframe(
-            df["Fecha"].head(2),
-            use_container_width=True,
-            hide_index=True
-            )
-            st.metric(
-            label="Fecha",
-            value=dat
-            ) 
+
             df = df[df["Fecha"]==dat]
             if tipo != "General":
                 df = df[df["Fuente"]==tipo]
