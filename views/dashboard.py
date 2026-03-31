@@ -14,7 +14,7 @@ def mostrar():
 
     st.subheader("Balance general")
 
-    balance_neto = get_celda("Resumen", "B7")  # ej: get_celda("Resumen", "B2")
+    balance_neto = get_celda("Resumen", "B9")  # ej: get_celda("Resumen", "B2")
 
     st.metric(
         label="Balance neto total",
@@ -29,7 +29,7 @@ def mostrar():
 
     st.subheader("Balance por tipo")
 
-    df_tipos = get_tabla("Resumen", "A1:B6")  # ej: get_tabla("Resumen", "A5:B10")
+    df_tipos = get_tabla("Resumen", "A1:B8")  # ej: get_tabla("Resumen", "A5:B10")
     print(df_tipos)
     
     st.dataframe(

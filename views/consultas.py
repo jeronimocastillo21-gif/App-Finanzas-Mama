@@ -1,6 +1,6 @@
 import streamlit as st
 from datetime import date
-from data.sheets_connector import get_celda, get_tabla
+from data.sheets_connector import get_celda, get_tabla, get_registros
 from config.settings import TIPOS_VALIDOS
 
 def num_to_col(n):
@@ -22,15 +22,17 @@ def mostrar():
     
     granularidad = st.radio(
         "Consultar por",
-        options=["Año", "Mes"],
+        options=["Año", "Mes", "Fecha"],
         horizontal=True
     )
 
     # FILTRO 2 — Período (depende del filtro 1)
-    col1, col2 = st.columns(2)
+    col1, col2, col3 = st.columns(3)
 
     with col1:
-        anios = [2025,2026]
+        anio_i = get_celda("Módulo_fechas","B2")
+        anio_f = get_celda("Módulo_fechas","B5")
+        anios = list(range(anio_i,anio_f)+1)
         anio = st.selectbox("Año", options=anios)  # ej: [2023, 2024, 2025]
         meses = [
                 "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", 
@@ -43,10 +45,14 @@ def mostrar():
             meses = meses[0:mes_actual]
 
     with col2:
-        if granularidad == "Mes":
+        if granularidad == "Mes" or granularidad == "Fecha":
             mes = st.selectbox("Mes", options=meses)
         # Si es "Año", esta columna queda vacía intencionalmente
 
+    with col3:
+        if granularidad == "Fecha":
+            fecha = st.selectbox("Fecha", options=list(range(1,32)))
+        
     # FILTRO 3 — Tipo
     tipo = st.selectbox(
         "Tipo",
@@ -62,28 +68,37 @@ def mostrar():
         # Construye los parámetros según los filtros
         if granularidad == "Año":
             periodo = str(anio)
-        else:
+        elif granularidad == "Mes":
             periodo = f"{mes}/{anio}"
+        else:
+            periodo = f"{fecha}/{mes}/{anio}"
 
         # Trae la tabla correspondiente desde Sheets
         # Aquí defines el rango según tu estructura real
-        if tipo == "General":
-            pestaña = "Ingresos/Gastos"
-            col_in = 9
+        if granularidad != "Fecha":
+            if tipo == "General":
+                pestaña = "Ingresos/Gastos"
+                col_in = 9
+            else:
+                pestaña = tipo
+                col_in = 4
+            
+            col = col_in + 5*(anio-2025)
+            col_i = num_to_col(col)
+            col += 3
+            col_f = num_to_col(col)
+            
+            df = get_tabla(pestaña, f"{col_i}2:{col_f}15")
+            if granularidad == "Mes":
+                df = df[df["Mes"]==mes]
+            else:
+                df = df[df["Mes"].isin(meses+["Total"])]
+                
         else:
-            pestaña = tipo
-            col_in = 4
-        
-        col = col_in + 5*(anio-2025)
-        col_i = num_to_col(col)
-        col += 3
-        col_f = num_to_col(col)
-        
-        df = get_tabla(pestaña, f"{col_i}2:{col_f}15")
-        if granularidad == "Mes":
-            df = df[df["Mes"]==mes]
-        else:
-            df = df[df["Mes"].isin(meses+["Total"])]
+            df = get_registros()
+            df = df[df["Fecha"]==fecha]
+            if tipo != "General":
+                df = df[df["Fuente"]==tipo]
 
         # ─────────────────────────────────────────
         # RESULTADOS
