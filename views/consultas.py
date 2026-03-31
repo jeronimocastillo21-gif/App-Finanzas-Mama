@@ -111,6 +111,14 @@ def mostrar():
             use_container_width=True,
             hide_index=True
             )
+            st.metric(
+            label="Fecha",
+            value=dat
+            )   
+            st.metric(
+            label="Tipo fecha df",
+            value=type(df["Fecha"][0])
+            )   
             df = df[df["Fecha"]==dat]
             if tipo != "General":
                 df = df[df["Fuente"]==tipo]
