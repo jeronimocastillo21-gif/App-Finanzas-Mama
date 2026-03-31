@@ -2,7 +2,7 @@ import streamlit as st
 import gspread
 import pandas as pd
 from google.oauth2.service_account import Credentials
-from config.settings import SHEET_NAME, TAB_REGISTROS, RANGO_DATOS, COLUMNAS
+from config.settings import SHEET_NAME, TAB_REGISTROS, RANGO_DATOS, RANGO_DEUDAS, TAB_DEUDAS
 
 # ─────────────────────────────────────────
 # CONEXIÓN
@@ -64,6 +64,41 @@ def get_tabla(nombre_pestana: str, rango: str) -> pd.DataFrame:
     registros = [dict(zip(encabezados, fila)) for fila in filas if any(fila)]
 
     return pd.DataFrame(registros)
+
+def actualizar_tabla_deudas():
+    sheet = get_sheet(TAB_DEUDAS)
+    registros = get_registros()
+    deudores = registros["Deudor"].unique()
+    tabla_actual = get_tabla(TAB_DEUDAS,RANGO_DEUDAS)
+    deudores_actuales = tabla_actual["Persona"].unique()
+    for deudor in deudores:
+        if deudor not in deudores_actuales:
+            sheet.append_row(deudor, value_input_option="USER_ENTERED")
+            last_row = len(sheet.get_all_values())
+            sheet.spreadsheet.batch_update({
+                "requests": [
+                    {
+                        "copyPaste": {
+                            "source": {
+                                "sheetId": sheet.id,
+                                "startRowIndex": last_row - 2,  # fila anterior
+                                "endRowIndex": last_row - 1,
+                                "startColumnIndex": 1,  # columna B
+                                "endColumnIndex": 2
+                            },
+                            "destination": {
+                                "sheetId": sheet.id,
+                                "startRowIndex": last_row - 1,  # nueva fila
+                                "endRowIndex": last_row,
+                                "startColumnIndex": 1,
+                                "endColumnIndex": 2
+                            },
+                            "pasteType": "PASTE_NORMAL"
+                        }
+                    }
+                ]
+            })
+    
 
 
 # ─────────────────────────────────────────

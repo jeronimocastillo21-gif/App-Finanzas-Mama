@@ -1,6 +1,6 @@
 import streamlit as st
 from datetime import date
-from data.sheets_connector import add_record
+from data.sheets_connector import add_record, actualizar_tabla_deudas
 from config.settings import TIPOS_VALIDOS
 
 def mostrar():
@@ -59,8 +59,10 @@ def mostrar():
     st.divider()
 
     # Botón de envío
-    if st.button("Guardar registro", type="primary", use_container_width=True):
-
+    if st.button("Guardar registro", type="primary", width=True):
+        
+        actualizar_tabla_deudas()
+        
         # Validaciones
         if monto == 0:
             st.error("❌ El monto no puede ser cero.")

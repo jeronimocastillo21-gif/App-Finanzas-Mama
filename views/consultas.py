@@ -64,7 +64,7 @@ def mostrar():
     # CONSULTA
     # ─────────────────────────────────────────
 
-    if st.button("Consultar", type="primary", use_container_width=True):
+    if st.button("Consultar", type="primary", width=True):
 
         # Construye los parámetros según los filtros
         if granularidad == "Año":
@@ -120,7 +120,7 @@ def mostrar():
 
         st.dataframe(
         df,
-        use_container_width=True,
+        width=True,
         hide_index=True
     )
     

@@ -34,7 +34,7 @@ def mostrar():
     
     st.dataframe(
         df_tipos,
-        use_container_width=True,
+        width=True,
         hide_index=True
     )
 
@@ -50,7 +50,7 @@ def mostrar():
     
     st.dataframe(
         df_tarjetas.drop("Total", axis=1),
-        use_container_width=True,
+        width=True,
         hide_index=True
     )
 
@@ -67,7 +67,7 @@ def mostrar():
     # Ajusta los nombres de columnas a los de tu Sheet
     st.dataframe(
         df_extranjeras,
-        use_container_width=True,
+        width=True,
         hide_index=True
     )
 
@@ -82,6 +82,6 @@ def mostrar():
     # Ajusta los nombres de columnas a los de tu Sheet
     st.dataframe(
         df_deudas,
-        use_container_width=True,
+        width=True,
         hide_index=True
     )
