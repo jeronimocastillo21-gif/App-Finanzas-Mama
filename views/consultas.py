@@ -96,6 +96,14 @@ def mostrar():
                 
         else:
             df = get_registros()
+            if len(fecha) == 2 and len(mes) == 2:
+                dat = f"{fecha}/{mes}/{anio}"
+            elif len(fecha) == 2:
+                dat = f"{fecha}/0{mes}/{anio}"
+            elif len(mes) == 2:
+                dat = f"0{fecha}/{mes}/{anio}"
+            else:
+                dat = f"0{fecha}/0{mes}/{anio}"
             df = df[df["Fecha"]==fecha]
             if tipo != "General":
                 df = df[df["Fuente"]==tipo]
