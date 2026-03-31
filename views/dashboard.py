@@ -1,5 +1,6 @@
 import streamlit as st
 from data.sheets_connector import get_celda, get_tabla
+from config.settings import RANGO_DEUDAS
 
 def mostrar():
     st.title("📊 Dashboard")
@@ -76,7 +77,7 @@ def mostrar():
 
     st.subheader("Deudas pendientes")
 
-    df_deudas = get_tabla("Resumen", "A18:B20")  # ej: get_tabla("Deudas", "A1:B10")
+    df_deudas = get_tabla("Resumen", RANGO_DEUDAS)  # ej: get_tabla("Deudas", "A1:B10")
 
     # Ajusta los nombres de columnas a los de tu Sheet
     st.dataframe(
