@@ -32,7 +32,7 @@ def mostrar():
     with col1:
         anio_i = int(get_celda("Módulo_fechas","B2"))
         anio_f = int(get_celda("Módulo_fechas","B5"))
-        anios = list(range(anio_i,anio_f)+1)
+        anios = list(range(anio_i,anio_f+1))
         anio = st.selectbox("Año", options=anios)  # ej: [2023, 2024, 2025]
         meses = [
                 "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", 
