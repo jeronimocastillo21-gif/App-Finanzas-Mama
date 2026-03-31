@@ -105,6 +105,7 @@ def mostrar():
                 dat = f"0{fecha}/{mes}/{anio}"
             else:
                 dat = f"0{fecha}/0{mes}/{anio}"
+            print(df["Fecha"].head(2))
             df = df[df["Fecha"]==fecha]
             if tipo != "General":
                 df = df[df["Fuente"]==tipo]
