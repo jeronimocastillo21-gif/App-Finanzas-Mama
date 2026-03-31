@@ -34,7 +34,7 @@ def mostrar():
     
     st.dataframe(
         df_tipos,
-        width=True,
+        width="Content",
         hide_index=True
     )
 
