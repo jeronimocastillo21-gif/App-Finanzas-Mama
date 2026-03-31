@@ -65,42 +65,38 @@ def get_tabla(nombre_pestana: str, rango: str) -> pd.DataFrame:
 
     return pd.DataFrame(registros)
 
-def actualizar_tabla_deudas():
+def actualizar_tabla_deudas(deudor):
     sheet = get_sheet(TAB_DEUDAS)
-    registros = get_registros()
-    
-    deudores = registros["Deudor"].dropna()
-    deudores = deudores[deudores != ""].unique()
     
     tabla_actual = get_tabla(TAB_DEUDAS,RANGO_DEUDAS)
     deudores_actuales = tabla_actual["Persona"].unique()
-    for deudor in deudores:
-        if deudor not in deudores_actuales:
-            sheet.append_row([deudor], value_input_option="USER_ENTERED")
-            last_row = len(sheet.get_all_values())
-            sheet.spreadsheet.batch_update({
-            "requests": [
-                {
-                    "copyPaste": {
-                        "source": {
-                            "sheetId": sheet.id,
-                            "startRowIndex": last_row - 2,  # fila anterior
-                            "endRowIndex": last_row - 1,
-                            "startColumnIndex": 6,  # columna G
-                            "endColumnIndex": 7
-                        },
-                        "destination": {
-                            "sheetId": sheet.id,
-                            "startRowIndex": last_row - 1,  # nueva fila
-                            "endRowIndex": last_row,
-                            "startColumnIndex": 6,
-                            "endColumnIndex": 7
-                        },
-                        "pasteType": "PASTE_NORMAL"
-                    }
+    
+    if deudor not in deudores_actuales:
+        sheet.append_row([deudor], value_input_option="USER_ENTERED")
+        last_row = len(sheet.get_all_values())
+        sheet.spreadsheet.batch_update({
+        "requests": [
+            {
+                "copyPaste": {
+                    "source": {
+                        "sheetId": sheet.id,
+                        "startRowIndex": last_row - 2,  # fila anterior
+                        "endRowIndex": last_row - 1,
+                        "startColumnIndex": 1,  # columna G
+                        "endColumnIndex": 2
+                    },
+                    "destination": {
+                        "sheetId": sheet.id,
+                        "startRowIndex": last_row - 1,  # nueva fila
+                        "endRowIndex": last_row,
+                        "startColumnIndex": 1,
+                        "endColumnIndex": 2
+                    },
+                    "pasteType": "PASTE_NORMAL"
                 }
-            ]
-            })
+            }
+        ]
+        })
     return None
     
 
