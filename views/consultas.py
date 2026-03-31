@@ -38,6 +38,7 @@ def mostrar():
                 "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", 
                 "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
             ]
+        meses_completo = meses.copy()
         if anio == anios[0]:
             meses = meses[8:]
         elif anio == anios[-1]:
@@ -96,7 +97,7 @@ def mostrar():
                 
         else:
             df = get_registros()
-            mes_in = meses.index(mes)+1
+            mes_in = meses_completo.index(mes)+1
             if len(str(fecha)) == 2 and len(str(mes_in)) == 2:
                 dat = f"{fecha}/{mes_in}/{anio}"
             elif len(str(fecha)) == 2:
