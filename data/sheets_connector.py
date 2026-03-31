@@ -123,7 +123,8 @@ def add_record(fecha: str, monto: float, tipo: str,
         last_row = len(sheet.get_all_values())
 
         # 3. Copiar fórmula de G (columna 6 index base 0) de la fila anterior
-        sheet.spreadsheet.batch_update([
+        sheet.spreadsheet.batch_update({
+            "requests": [
                 {
                     "copyPaste": {
                         "source": {
@@ -144,7 +145,7 @@ def add_record(fecha: str, monto: float, tipo: str,
                     }
                 }
             ]
-        )
+        })
         
         return True
     
