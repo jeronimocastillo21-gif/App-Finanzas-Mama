@@ -68,15 +68,17 @@ def get_tabla(nombre_pestana: str, rango: str) -> pd.DataFrame:
 def actualizar_tabla_deudas():
     sheet = get_sheet(TAB_DEUDAS)
     registros = get_registros()
-    deudores = registros["Deudor"].unique()
+    
+    deudores = registros["Deudor"].dropna()
+    deudores = deudores[deudores != ""].unique()
+    
     tabla_actual = get_tabla(TAB_DEUDAS,RANGO_DEUDAS)
     deudores_actuales = tabla_actual["Persona"].unique()
     for deudor in deudores:
         if deudor not in deudores_actuales:
             sheet.append_row([deudor], value_input_option="USER_ENTERED")
             last_row = len(sheet.get_all_values())
-            sheet.spreadsheet.batch_update({
-                "requests": [
+            sheet.spreadsheet.batch_update([
                     {
                         "copyPaste": {
                             "source": {
@@ -97,7 +99,7 @@ def actualizar_tabla_deudas():
                         }
                     }
                 ]
-            })
+            )
     return None
     
 
@@ -121,8 +123,7 @@ def add_record(fecha: str, monto: float, tipo: str,
         last_row = len(sheet.get_all_values())
 
         # 3. Copiar fórmula de G (columna 6 index base 0) de la fila anterior
-        sheet.spreadsheet.batch_update({
-            "requests": [
+        sheet.spreadsheet.batch_update([
                 {
                     "copyPaste": {
                         "source": {
@@ -143,7 +144,7 @@ def add_record(fecha: str, monto: float, tipo: str,
                     }
                 }
             ]
-        })
+        )
         
         return True
     
