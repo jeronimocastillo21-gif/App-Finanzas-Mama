@@ -26,7 +26,7 @@ def mostrar():
         descripcion = st.text_input("Descripción")
         deudor = st.text_input(
             "Deudor",
-            placeholder="Opcional — nombre de la(s) persona(s)",
+            placeholder="Nombre de la(s) persona(s)",
         )
 
     # ─────────────────────────────────────────
@@ -51,6 +51,8 @@ def mostrar():
         
         if deudor:
             actualizar_tabla_deudas(deudor)
+        else:
+            st.error("❌ El deudor no puede estar vacío.")
         
         # Validaciones
         if monto == 0:
