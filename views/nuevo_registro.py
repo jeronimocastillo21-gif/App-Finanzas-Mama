@@ -59,7 +59,7 @@ def mostrar():
     st.divider()
 
     # Botón de envío
-    if st.button("Guardar registro", type="primary", width=True):
+    if st.button("Guardar registro", type="primary", width="stretch"):
         
         actualizar_tabla_deudas()
         

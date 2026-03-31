@@ -34,7 +34,7 @@ def mostrar():
     
     st.dataframe(
         df_tipos,
-        width="content",
+        width="stretch",
         hide_index=True
     )
 
@@ -67,7 +67,7 @@ def mostrar():
     # Ajusta los nombres de columnas a los de tu Sheet
     st.dataframe(
         df_extranjeras,
-        width=True,
+        width="stretch",
         hide_index=True
     )
 
@@ -82,6 +82,6 @@ def mostrar():
     # Ajusta los nombres de columnas a los de tu Sheet
     st.dataframe(
         df_deudas,
-        width=True,
+        width="stretch",
         hide_index=True
     )
