@@ -34,7 +34,7 @@ def mostrar():
     
     st.dataframe(
         df_tipos,
-        width="Content",
+        width="content",
         hide_index=True
     )
 
@@ -50,7 +50,7 @@ def mostrar():
     
     st.dataframe(
         df_tarjetas.drop("Total", axis=1),
-        width=True,
+        width="stretch",
         hide_index=True
     )
 
