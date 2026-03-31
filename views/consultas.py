@@ -98,13 +98,13 @@ def mostrar():
             df = get_registros()
             mes_in = meses.index(mes)+1
             if len(str(fecha)) == 2 and len(str(mes_in)) == 2:
-                dat = f"{fecha}/{mes}/{anio}"
+                dat = f"{fecha}/{mes_in}/{anio}"
             elif len(str(fecha)) == 2:
-                dat = f"{fecha}/0{mes}/{anio}"
+                dat = f"{fecha}/0{mes_in}/{anio}"
             elif len(str(mes_in)) == 2:
-                dat = f"0{fecha}/{mes}/{anio}"
+                dat = f"0{fecha}/{mes_in}/{anio}"
             else:
-                dat = f"0{fecha}/0{mes}/{anio}"
+                dat = f"0{fecha}/0{mes_in}/{anio}"
                 
             st.dataframe(
             df["Fecha"].head(2),
