@@ -73,7 +73,7 @@ def actualizar_tabla_deudas():
     deudores_actuales = tabla_actual["Persona"].unique()
     for deudor in deudores:
         if deudor not in deudores_actuales:
-            sheet.append_row(deudor, value_input_option="USER_ENTERED")
+            sheet.append_row([deudor], value_input_option="USER_ENTERED")
             last_row = len(sheet.get_all_values())
             sheet.spreadsheet.batch_update({
                 "requests": [
@@ -98,6 +98,7 @@ def actualizar_tabla_deudas():
                     }
                 ]
             })
+    return None
     
 
 
