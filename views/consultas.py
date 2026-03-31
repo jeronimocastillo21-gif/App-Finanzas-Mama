@@ -96,11 +96,12 @@ def mostrar():
                 
         else:
             df = get_registros()
-            if len(str(fecha)) == 2 and len(str(mes)) == 2:
+            mes_in = meses.index(mes)+1
+            if len(str(fecha)) == 2 and len(str(mes_in)) == 2:
                 dat = f"{fecha}/{mes}/{anio}"
             elif len(str(fecha)) == 2:
                 dat = f"{fecha}/0{mes}/{anio}"
-            elif len(str(mes)) == 2:
+            elif len(str(mes_in)) == 2:
                 dat = f"0{fecha}/{mes}/{anio}"
             else:
                 dat = f"0{fecha}/0{mes}/{anio}"
