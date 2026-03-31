@@ -30,7 +30,6 @@ def mostrar():
     st.subheader("Balance por tipo")
 
     df_tipos = get_tabla("Resumen", "A1:B8")  # ej: get_tabla("Resumen", "A5:B10")
-    print(df_tipos)
     
     st.dataframe(
         df_tipos,
@@ -41,12 +40,28 @@ def mostrar():
     st.divider()
     
     # ─────────────────────────────────────────
-    # SECCIÓN 3 — MONEDAS EXTRANJERAS
+    # SECCIÓN 3 — GASTOS MES ACTUAL TARJETAS
+    # ─────────────────────────────────────────
+
+    st.subheader("Gasto de las tarjetas en el mes actual")
+
+    df_tarjetas = get_tabla("Resumen", "A11:C13")  # ej: get_tabla("Resumen", "A5:B10")
+    
+    st.dataframe(
+        df_tarjetas.drop("Total", axis=1),
+        use_container_width=True,
+        hide_index=True
+    )
+
+    st.divider()
+    
+    # ─────────────────────────────────────────
+    # SECCIÓN 4 — MONEDAS EXTRANJERAS
     # ─────────────────────────────────────────
 
     st.subheader("Monedas extranjeras")
 
-    df_extranjeras = get_tabla("Resumen", "A13:B16")  # ej: get_tabla("Deudas", "A1:B10")
+    df_extranjeras = get_tabla("Resumen", "A15:B18")  # ej: get_tabla("Deudas", "A1:B10")
 
     # Ajusta los nombres de columnas a los de tu Sheet
     st.dataframe(
@@ -56,7 +71,7 @@ def mostrar():
     )
 
     # ─────────────────────────────────────────
-    # SECCIÓN 4 — DEUDAS PENDIENTES
+    # SECCIÓN 5 — DEUDAS PENDIENTES
     # ─────────────────────────────────────────
 
     st.subheader("Deudas pendientes")
