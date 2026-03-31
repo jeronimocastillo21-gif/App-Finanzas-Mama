@@ -13,12 +13,16 @@ st.set_page_config(
 st.sidebar.title("💰 Mis Finanzas")
 vista = st.sidebar.radio(
     "Navegación",
-    ["Nuevo Registro", "Dashboard", "Consultas"]
+    ["Nuevo Registro", "Nueva deuda", "Dashboard", "Consultas"]
 )
 
 # Enrutamiento
 if vista == "Dashboard":
     from views.dashboard import mostrar
+    mostrar()
+
+elif vista == "Nuevo Registro":
+    from views.nueva_deuda import mostrar
     mostrar()
 
 elif vista == "Nuevo Registro":
