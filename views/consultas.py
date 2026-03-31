@@ -111,7 +111,7 @@ def mostrar():
             use_container_width=True,
             hide_index=True
             )
-            df = df[df["Fecha"]==fecha]
+            df = df[df["Fecha"]==dat]
             if tipo != "General":
                 df = df[df["Fuente"]==tipo]
 
