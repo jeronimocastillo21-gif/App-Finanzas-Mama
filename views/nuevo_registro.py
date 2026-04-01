@@ -11,7 +11,13 @@ def mostrar():
     # FORMULARIO
     # ─────────────────────────────────────────
 
-    col1, col2 = st.columns(2)
+    granularidad = st.radio(
+        "Tipo de registro",
+        options=["Ingreso", "Gasto"],
+        horizontal=True
+    )
+
+    col1, col2, col3 = st.columns(2)
 
     with col1:
         fecha = st.date_input("Fecha", value=date.today())
@@ -19,7 +25,7 @@ def mostrar():
             "Monto",
             value=0,
             step=1000,
-            help="Positivo para ingresos, negativo para gastos"
+            help="Valor absoluto del registro, únicamente positivos"
         )
         tipo = st.selectbox("Tipo", options=TIPOS_VALIDOS)
 
@@ -27,7 +33,7 @@ def mostrar():
         descripcion = st.text_input("Descripción")
         deudor = st.text_input(
             "Deudor",
-            placeholder="Opcional — nombre de la(s) persona(s)",
+            placeholder="Opcional — nombre de la(s) persona(s), separadas por coma (,)",
         )
         factor = st.slider(
             "Factor de deuda",
@@ -43,14 +49,15 @@ def mostrar():
     # ─────────────────────────────────────────
 
     # Muestra un resumen antes de confirmar
-    if monto != 0:
+    if monto > 0:
         st.divider()
         st.subheader("Resumen")
 
-        col_a, col_b, col_c = st.columns(3)
-        col_a.metric("Monto", f"${monto:,.0f}")
-        col_b.metric("Tipo", tipo)
-        col_c.metric("Fecha", str(fecha))
+        col_a, col_b, col_c, col_d = st.columns(4)
+        col_a.metric("Tipo de registro", granularidad)
+        col_b.metric("Monto", f"${monto:,.0f}")
+        col_c.metric("Tipo", tipo)
+        col_d.metric("Fecha", str(fecha))
 
         if deudor and factor > 0:
             valor_deuda = abs(monto) * factor
@@ -67,6 +74,9 @@ def mostrar():
         # Validaciones
         if monto == 0:
             st.error("❌ El monto no puede ser cero.")
+            
+        if monto < 0:
+            st.error("❌ El monto no puede ser negativo.")
 
         elif not descripcion:
             st.error("❌ La descripción no puede estar vacía.")
@@ -80,7 +90,7 @@ def mostrar():
 
             exito = add_record(
                 fecha=fecha_str,
-                monto=monto,
+                monto=monto if granularidad == "Ingreso" else -1*monto,
                 tipo=tipo,
                 descripcion=descripcion,
                 deudor=deudor,
