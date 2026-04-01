@@ -34,7 +34,7 @@ def mostrar():
     # ─────────────────────────────────────────
 
     # Muestra un resumen antes de confirmar
-    if monto != 0:
+    if monto > 0:
         st.divider()
         st.subheader("Resumen")
 
