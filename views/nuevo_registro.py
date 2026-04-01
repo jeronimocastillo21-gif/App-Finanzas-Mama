@@ -69,7 +69,9 @@ def mostrar():
     if st.button("Guardar registro", type="primary", width="stretch"):
         
         if deudor:
-            actualizar_tabla_deudas(deudor)
+            deudores = deudor.split(",")
+            for each in deudores:
+                actualizar_tabla_deudas(each)
         
         # Validaciones
         if monto == 0:
