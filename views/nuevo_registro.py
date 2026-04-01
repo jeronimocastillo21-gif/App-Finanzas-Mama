@@ -61,7 +61,7 @@ def mostrar():
 
         if deudor and factor > 0:
             valor_deuda = abs(monto) * factor
-            st.info(f"💳 Este registro genera una deuda de **${valor_deuda:,.0f}** con {deudor}")
+            st.info(f"💳 Este registro genera una deuda de **${valor_deuda:,.0f}** con {" y".join(deudor.rsplit(",",1))}")
 
     st.divider()
 
@@ -69,7 +69,7 @@ def mostrar():
     if st.button("Guardar registro", type="primary", width="stretch"):
         
         if deudor:
-            deudores = deudor.split(",")
+            deudores = deudor.replace(", ", ",").split(",")
             for each in deudores:
                 actualizar_tabla_deudas(each)
         
