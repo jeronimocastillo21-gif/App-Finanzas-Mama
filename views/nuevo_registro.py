@@ -17,7 +17,7 @@ def mostrar():
         horizontal=True
     )
 
-    col1, col2, col3 = st.columns(2)
+    col1, col2 = st.columns(2)
 
     with col1:
         fecha = st.date_input("Fecha", value=date.today())
