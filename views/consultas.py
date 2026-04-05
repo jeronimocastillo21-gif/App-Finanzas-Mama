@@ -45,7 +45,7 @@ def mostrar():
             cent = True
         if anio == anios[-1]:
             mes_actual = int(get_celda("Módulo_fechas","B4"))
-            meses = meses[0:mes_actual] if not cent else meses[0:mes_actual-3]
+            meses = meses[0:mes_actual] if not cent else meses[0:mes_actual-2]
 
     with col2:
         if granularidad == "Mes" or granularidad == "Fecha":
