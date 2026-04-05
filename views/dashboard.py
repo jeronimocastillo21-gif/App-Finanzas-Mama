@@ -33,46 +33,52 @@ def mostrar():
 
     df_tipos = get_tabla("Resumen", "A1:B10")  # ej: get_tabla("Resumen", "A5:B10")
     
-    st.dataframe(
-        df_tipos,
-        width="content",
-        hide_index=True
-    )
+    col1, col2 = st.columns([1, 2])
     
-    fig, ax = plt.subplots(figsize=(8, 8))
-    df_tipos["Valor"] = (df_tipos["Valor"].str.replace("$","").str.replace(",","").astype(float))
-
-    # Crear el pie sin textos
-    wedges, _ = ax.pie(
-        df_tipos["Valor"],
-        labels=None,
-        startangle=90
-    )
-
-    ax.axis('equal')
-    ax.set_title("Distribución de Fondos")
-
-    # Crear labels completos para la leyenda
-    total = float(balance_neto.replace("$","").replace(",",""))
-    legend_labels = [
-        f"{fondo} — ${valor:,.0f} ({valor/total:.1%})"
-        for fondo, valor in zip(df_tipos["Fondos"], df_tipos["Valor"])
-    ]
-
-    # Leyenda con toda la info
-    ax.legend(
-        wedges,
-        legend_labels,
-        title="Fondos",
-        loc="center left",
-    )
-
-    fig.tight_layout()
+    with col1:
     
-    st.pyplot(
-        fig,
-        width="content"
-    )
+        st.dataframe(
+            df_tipos,
+            width="content",
+            hide_index=True
+        )
+    
+    with col2:
+    
+        fig, ax = plt.subplots(figsize=(8, 8))
+        df_tipos["Valor"] = (df_tipos["Valor"].str.replace("$","").str.replace(",","").astype(float))
+
+        # Crear el pie sin textos
+        wedges, _ = ax.pie(
+            df_tipos["Valor"],
+            labels=None,
+            startangle=90
+        )
+
+        ax.axis('equal')
+        ax.set_title("Distribución de Fondos")
+
+        # Crear labels completos para la leyenda
+        total = float(balance_neto.replace("$","").replace(",",""))
+        legend_labels = [
+            f"{fondo} — {valor/total:.1%}"
+            for fondo, valor in zip(df_tipos["Fondos"], df_tipos["Valor"])
+        ]
+
+        # Leyenda con toda la info
+        ax.legend(
+            wedges,
+            legend_labels,
+            title="Fondos",
+            loc="center left",
+        )
+
+        fig.tight_layout()
+        
+        st.pyplot(
+            fig,
+            width="content"
+        )
 
     st.divider()
     
