@@ -40,7 +40,7 @@ def mostrar():
     )
     
     fig, ax = plt.subplots(figsize=(8, 8))
-    df_tipos["Valor"] = (df_tipos["Valor"].str.replace("$","").replace(",","").astype(float))
+    df_tipos["Valor"] = (df_tipos["Valor"].str.replace("$","").str.replace(",","").astype(float))
     print(df_tipos)
 
     # Crear el pie sin textos
