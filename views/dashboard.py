@@ -15,7 +15,7 @@ def mostrar():
 
     st.subheader("Balance general")
 
-    balance_neto = get_celda("Resumen", "B9")  # ej: get_celda("Resumen", "B2")
+    balance_neto = get_celda("Resumen", "B11")  # ej: get_celda("Resumen", "B2")
 
     st.metric(
         label="Balance neto total",
@@ -30,7 +30,7 @@ def mostrar():
 
     st.subheader("Balance por tipo")
 
-    df_tipos = get_tabla("Resumen", "A1:B8")  # ej: get_tabla("Resumen", "A5:B10")
+    df_tipos = get_tabla("Resumen", "A1:B10")  # ej: get_tabla("Resumen", "A5:B10")
     
     st.dataframe(
         df_tipos,
@@ -46,7 +46,7 @@ def mostrar():
 
     st.subheader("Gasto de las tarjetas en el mes actual")
 
-    df_tarjetas = get_tabla("Resumen", "A11:C13")  # ej: get_tabla("Resumen", "A5:B10")
+    df_tarjetas = get_tabla("Resumen", "A13:C16")  # ej: get_tabla("Resumen", "A5:B10")
     
     st.dataframe(
         df_tarjetas.drop("Total", axis=1),
@@ -62,7 +62,7 @@ def mostrar():
 
     st.subheader("Monedas extranjeras")
 
-    df_extranjeras = get_tabla("Resumen", "A15:B18")  # ej: get_tabla("Deudas", "A1:B10")
+    df_extranjeras = get_tabla("Resumen", "A18:B20")  # ej: get_tabla("Deudas", "A1:B10")
 
     # Ajusta los nombres de columnas a los de tu Sheet
     st.dataframe(
