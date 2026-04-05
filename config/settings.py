@@ -19,8 +19,8 @@ TIPOS_VALIDOS = [
     "Occidente",
     "Bancolombia",
     "Nequi",
-    "Global (COP)",
-    "Global (USD)",
+    "Global_COP",
+    "Global_USD",
     "Uala",
     "Nu",
     "Pibank"
