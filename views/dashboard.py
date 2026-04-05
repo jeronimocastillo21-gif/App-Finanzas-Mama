@@ -43,7 +43,7 @@ def mostrar():
 
     # Crear el pie sin textos
     wedges, _ = ax.pie(
-        df["Valor"],
+        df_tipos["Valor"],
         labels=None,
         startangle=90
     )
