@@ -40,9 +40,9 @@ def mostrar():
             ]
         meses_completo = meses.copy()
         if anio == anios[0]:
-            meses = meses[8:]
+            meses = meses[2:]
         elif anio == anios[-1]:
-            mes_actual = int(str(date.today())[5:7])
+            mes_actual = int(get_celda("Módulo_fechas","B4"))-1
             meses = meses[0:mes_actual]
 
     with col2:
