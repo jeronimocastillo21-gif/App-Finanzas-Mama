@@ -1,4 +1,5 @@
 import streamlit as st
+import matplotlib.pyplot as plt
 from data.sheets_connector import get_celda, get_tabla
 from config.settings import RANGO_DEUDAS
 
@@ -36,6 +37,39 @@ def mostrar():
         df_tipos,
         width="stretch",
         hide_index=True
+    )
+    
+    fig, ax = plt.subplots(figsize=(8, 8))
+
+    # Crear el pie sin textos
+    wedges, _ = ax.pie(
+        df["Valor"],
+        labels=None,
+        startangle=90
+    )
+
+    ax.axis('equal')
+    ax.set_title("Distribución de Fondos")
+
+    # Crear labels completos para la leyenda
+    total = balance_neto
+    legend_labels = [
+        f"{fondo} — ${valor:,.0f} ({valor/total:.1%})"
+        for fondo, valor in zip(df_tipos["Fondos"], df_tipos["Valor"])
+    ]
+
+    # Leyenda con toda la info
+    ax.legend(
+        wedges,
+        legend_labels,
+        title="Fondos",
+        loc="center left",
+    )
+
+    fig.tight_layout()
+    
+    st.pyplot(
+        fig
     )
 
     st.divider()
