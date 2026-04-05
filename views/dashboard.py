@@ -39,7 +39,7 @@ def mostrar():
     
         st.dataframe(
             df_tipos,
-            width="content",
+            width="stretch",
             hide_index=True
         )
     
