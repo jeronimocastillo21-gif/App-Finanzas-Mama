@@ -41,7 +41,6 @@ def mostrar():
     
     fig, ax = plt.subplots(figsize=(8, 8))
     df_tipos["Valor"] = (df_tipos["Valor"].str.replace("$","").str.replace(",","").astype(float))
-    print(df_tipos)
 
     # Crear el pie sin textos
     wedges, _ = ax.pie(
@@ -54,7 +53,7 @@ def mostrar():
     ax.set_title("Distribución de Fondos")
 
     # Crear labels completos para la leyenda
-    total = balance_neto
+    total = float(balance_neto.replace("$","").replace(",",""))
     legend_labels = [
         f"{fondo} — ${valor:,.0f} ({valor/total:.1%})"
         for fondo, valor in zip(df_tipos["Fondos"], df_tipos["Valor"])
