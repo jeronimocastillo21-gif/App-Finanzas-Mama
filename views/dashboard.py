@@ -35,7 +35,7 @@ def mostrar():
     
     st.dataframe(
         df_tipos,
-        width="stretch",
+        width="content",
         hide_index=True
     )
     
@@ -70,7 +70,8 @@ def mostrar():
     fig.tight_layout()
     
     st.pyplot(
-        fig
+        fig,
+        width="content"
     )
 
     st.divider()
