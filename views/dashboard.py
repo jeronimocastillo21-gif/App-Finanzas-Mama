@@ -1,5 +1,5 @@
 import streamlit as st
-import matplotlib.pyplot as plt
+import plotply.express as px
 from data.sheets_connector import get_celda, get_tabla
 from config.settings import RANGO_DEUDAS
 
@@ -45,40 +45,27 @@ def mostrar():
     
     with col2:
     
-        fig, ax = plt.subplots(figsize=(8, 8))
         df_tipos["Valor"] = (df_tipos["Valor"].str.replace("$","").str.replace(",","").astype(float))
 
         # Crear el pie sin textos
-        wedges, _ = ax.pie(
-            df_tipos["Valor"],
-            labels=None,
-            startangle=90
+        fig = px.pie(
+            df_tipos,
+            names="Fondos",
+            values="Valor",
+            title="Distribución de Fondos",
+            hole=0.3  # opcional: donut más moderno
         )
 
-        ax.axis('equal')
-        ax.set_title("Distribución de Fondos")
-
-        # Crear labels completos para la leyenda
-        total = float(balance_neto.replace("$","").replace(",",""))
-        legend_labels = [
-            f"{fondo} — {valor/total:.1%}"
-            for fondo, valor in zip(df_tipos["Fondos"], df_tipos["Valor"])
-        ]
-
-        # Leyenda con toda la info
-        ax.legend(
-            wedges,
-            legend_labels,
-            title="Fondos",
-            loc="center left",
+        fig.update_traces(
+            textinfo="none",  # sin texto dentro
+            hovertemplate="<b>%{label}</b><br>Valor: $%{value:,.0f}<br>%{percent}"
         )
 
-        fig.tight_layout()
-        
-        st.pyplot(
-            fig,
-            width="content"
+        fig.update_layout(
+            legend_title="Fondos"
         )
+
+        st.plotly_chart(fig, use_container_width=True)
 
     st.divider()
     
