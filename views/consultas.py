@@ -39,11 +39,13 @@ def mostrar():
                 "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
             ]
         meses_completo = meses.copy()
+        cent = False
         if anio == anios[0]:
             meses = meses[2:]
+            cent = True
         if anio == anios[-1]:
-            mes_actual = int(get_celda("Módulo_fechas","B4"))-1
-            meses = meses[0:mes_actual]
+            mes_actual = int(get_celda("Módulo_fechas","B4"))
+            meses = meses[0:mes_actual] if not cent else meses[0:mes_actual-2]
 
     with col2:
         if granularidad == "Mes" or granularidad == "Fecha":
