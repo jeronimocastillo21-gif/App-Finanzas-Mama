@@ -1,5 +1,5 @@
 import streamlit as st
-import plotply.express as px
+import plotly.express as px
 from data.sheets_connector import get_celda, get_tabla
 from config.settings import RANGO_DEUDAS
 
