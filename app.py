@@ -1,7 +1,6 @@
 # app.py
 
 import streamlit as st
-
 from streamlit_google_auth import Authenticate
 
 # Configuración general de la página
@@ -16,13 +15,15 @@ authenticator = Authenticate(
 
 authenticator.check_authentification()
 
-if not st.session_state.connected:
+if not st.session_state.get("connected", False):
+    authenticator.login()
     st.stop()
 
 # Restringe por correo específico
 CORREOS_PERMITIDOS = ["jeronimo.castillo21@gmail.com"]
 if st.session_state.user_info["email"] not in CORREOS_PERMITIDOS:
     st.error("No tienes acceso a esta aplicación")
+    authenticator.logout()
     st.stop()
 
 st.set_page_config(
