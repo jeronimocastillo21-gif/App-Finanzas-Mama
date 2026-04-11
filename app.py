@@ -1,30 +1,31 @@
 # app.py
 
 import streamlit as st
-from streamlit_google_auth import Authenticate
 
 # Configuración general de la página
 
 
-authenticator = Authenticate(
-    secret_credentials_path="credenciales.json",
-    cookie_name="finanzas_app",
-    cookie_key=st.secrets["COOKIE_KEY"],
-    redirect_uri="https://app-finanzas-mama.streamlit.app/"
-)
+def check_login():
+    if "authenticated" not in st.session_state:
+        st.session_state.authenticated = False
 
-authenticator.check_authentification()
+    if not st.session_state.authenticated:
+        st.title("🔒 Acceso restringido")
 
-if not st.session_state.get("connected", False):
-    authenticator.login()
-    st.stop()
+        usuario = st.text_input("Usuario")
+        password = st.text_input("Contraseña", type="password")
 
-# Restringe por correo específico
-CORREOS_PERMITIDOS = ["jeronimo.castillo21@gmail.com"]
-if st.session_state.user_info["email"] not in CORREOS_PERMITIDOS:
-    st.error("No tienes acceso a esta aplicación")
-    authenticator.logout()
-    st.stop()
+        if st.button("Ingresar"):
+            usuarios = st.secrets["usuarios"]
+            if usuario in usuarios and usuarios[usuario] == password:
+                st.session_state.authenticated = True
+                st.session_state.usuario = usuario
+                st.rerun()
+            else:
+                st.error("Usuario o contraseña incorrectos")
+        st.stop()
+        
+check_login()
 
 st.set_page_config(
     page_title="Mis Finanzas",
