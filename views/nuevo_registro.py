@@ -1,5 +1,5 @@
 import streamlit as st
-from datetime import date
+from datetime import datetime
 from data.sheets_connector import add_record, actualizar_tabla_deudas
 from config.settings import TIPOS_VALIDOS
 
@@ -20,7 +20,7 @@ def mostrar():
     col1, col2 = st.columns(2)
 
     with col1:
-        fecha = st.date_input("Fecha", value=date.today())
+        fecha = st.date_input("Fecha", value=datetime.now(ZoneInfo("America/Bogota")).date())
         monto = st.number_input(
             "Monto",
             value=0,
